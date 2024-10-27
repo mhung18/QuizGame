@@ -107,10 +107,37 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this,"Sign Up Successful",Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                            Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
-                            startActivity(intent);
-                            SignUpActivity.this.finish();
+
+                            DbQuery.createUserData(emailStr,nameStr, new MyCompleteListener() {
+                                @Override
+                                public void OnSuccess() {
+
+                                    DbQuery.loadCategories(new MyCompleteListener() {
+                                        @Override
+                                        public void OnSuccess() {
+                                            progressDialog.dismiss();
+                                            Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+                                            startActivity(intent);
+                                            SignUpActivity.this.finish();
+                                        }
+
+                                        @Override
+                                        public void OnFailure() {
+                                            Toast.makeText(SignUpActivity.this,"Sign Up Failed ! Please try again",Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void OnFailure() {
+                                    Toast.makeText(SignUpActivity.this,"Sign Up Failed ! Please try again",Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignUpActivity.this, "Authentication failed.",

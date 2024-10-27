@@ -19,7 +19,7 @@ public class CategoryFragment extends Fragment {
         // Required empty public constructor
     }
     private GridView catView;
-    private List<CategoryModel> catList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -27,21 +27,13 @@ public class CategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         catView = view.findViewById(R.id.cat_Grid);
 
-        loadCategories();
+        //loadCategories();
 
-        CategoryAdapter adapter = new CategoryAdapter(catList);
+        CategoryAdapter adapter = new CategoryAdapter(DbQuery.g_catList);
         catView.setAdapter(adapter);
 
         return view;
     }
 
-    private void loadCategories(){
-        catList.clear();
-        catList.add(new CategoryModel("1","GK",20));
-        catList.add(new CategoryModel("2","History",20));
-        catList.add(new CategoryModel("3","English",20));
-        catList.add(new CategoryModel("4","Science",20));
-        catList.add(new CategoryModel("5","Biology",20));
-        catList.add(new CategoryModel("5","Math",20));
-    }
+
 }

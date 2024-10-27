@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashActivity extends AppCompatActivity {
     private TextView appName;
@@ -28,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         appName.setAnimation(anim);
 
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        DbQuery.g_firestore = FirebaseFirestore.getInstance();
 
         new Thread(){
             @Override
@@ -39,9 +41,23 @@ public class SplashActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(mAuth.getCurrentUser() != null){
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    SplashActivity.this.finish();
+
+                    DbQuery.loadCategories(new MyCompleteListener() {
+                        @Override
+                        public void OnSuccess() {
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            SplashActivity.this.finish();
+                        }
+
+                        @Override
+                        public void OnFailure() {
+                            Toast.makeText(SplashActivity.this,"Sign Up Failed ! Please try again", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+
                 } else {
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);

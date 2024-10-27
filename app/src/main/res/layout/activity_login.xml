@@ -152,7 +152,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:id="@+id/facebookSignin"
             android:layout_weight="1">
 
             <ImageView
@@ -166,6 +166,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/googleSignin"
             android:layout_weight="1">
 
             <ImageView
@@ -180,6 +181,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/twitterSignin"
             android:layout_weight="1">
 
             <ImageView
