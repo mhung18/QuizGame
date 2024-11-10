@@ -31,6 +31,11 @@ public class DbQuery {
 
     public static ProfileModel myProfile = new ProfileModel("NA",null);
 
+    public static final int NOT_VISITED = 0;
+    public static final int UNANSWERED = 1;
+    public static final int ANSWERED = 2;
+    public static final int REVIEW = 3;
+
     public static void createUserData(String email, String name, MyCompleteListener completeListener){
         Map<String, Object> userData = new ArrayMap<>();
         userData.put("EMAIL_ID",email);
@@ -83,7 +88,8 @@ public class DbQuery {
     public static void loadCategories(final MyCompleteListener completeListener){
         g_catList.clear();
 
-        g_firestore.collection("QUIZ").get()
+        g_firestore.collection("QUIZ")
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -135,7 +141,8 @@ public class DbQuery {
                                doc.getString("C"),
                                doc.getString("D"),
                                doc.getLong("ANSWER").intValue(),
-                                    -1
+                                    -1,
+                                    NOT_VISITED
                             ));
                         }
                         completeListener.OnSuccess();

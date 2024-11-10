@@ -1,5 +1,10 @@
 package com.example.quizzone;
 
+import static com.example.quizzone.DbQuery.ANSWERED;
+import static com.example.quizzone.DbQuery.REVIEW;
+import static com.example.quizzone.DbQuery.UNANSWERED;
+import static com.example.quizzone.DbQuery.g_quesList;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,29 +100,38 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         private void selectedOption(AppCompatButton btn, int option_no, int quesID){
             if(prevSelectedOption == null){
                 btn.setBackgroundResource(R.drawable.selected_btn);
-                DbQuery.g_quesList.get(quesID).setSelectedAns(option_no);
+                g_quesList.get(quesID).setSelectedAns(option_no);
 
+                changeStatus(quesID, ANSWERED);
                 prevSelectedOption = btn;
 
             } else {
                 if(prevSelectedOption.getId() == btn.getId()){
                     btn.setBackgroundResource(R.drawable.unselected_btn);
-                    DbQuery.g_quesList.get(quesID).setSelectedAns(-1);
+                    g_quesList.get(quesID).setSelectedAns(-1);
 
+                    changeStatus(quesID,UNANSWERED);
                     prevSelectedOption = null;
                 } else {
                     prevSelectedOption.setBackgroundResource(R.drawable.unselected_btn);
                     btn.setBackgroundResource(R.drawable.selected_btn);
 
-                    DbQuery.g_quesList.get(quesID).setSelectedAns(option_no);
+                    g_quesList.get(quesID).setSelectedAns(option_no);
 
+                    changeStatus(quesID,ANSWERED);
                     prevSelectedOption = btn;
                 }
             }
         }
 
+        private void changeStatus(int quesID, int answered) {
+            if(g_quesList.get(quesID).getStatus() != REVIEW){
+                g_quesList.get(quesID).setStatus(answered);
+            }
+        }
+
         private void setOption(AppCompatButton btn, int option_no, int quesID){
-            if(DbQuery.g_quesList.get(quesID).getSelectedAns() == option_no){
+            if(g_quesList.get(quesID).getSelectedAns() == option_no){
                 btn.setBackgroundResource(R.drawable.selected_btn);
             }
             else{

@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/inter"
             android:textColor="@color/colorAccent"
-            android:background="@drawable/circle"
+            android:background="@drawable/btn_background"
             android:backgroundTint="@android:color/holo_orange_dark"></androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>
@@ -113,7 +113,7 @@
             android:id="@+id/btnClearSelection"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:background="@drawable/circle"
+            android:background="@drawable/btn_background"
             android:paddingHorizontal="5dp"
             android:text="Clear"
             android:layout_weight="1"
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginLeft="8dp"
-            android:background="@drawable/circle"
+            android:background="@drawable/btn_background"
             android:paddingHorizontal="5dp"
             android:layout_weight="1"
             android:fontFamily="@font/inter"
@@ -152,6 +152,20 @@
         app:layout_constraintBottom_toTopOf="@id/ll3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll2"></androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@id/ll2">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/mark_img"
+        android:src="@drawable/ic_mark"
+        android:elevation="5dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll2"></ImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

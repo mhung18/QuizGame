@@ -5,4 +5,8 @@
     <color name="colorAccent">#FFFFFFFF</color>
     <color name="black">#000000</color>
     <color name="main_background">#B1E0E6</color>
+    <color name="green">#00FF06</color>
+    <color name="grey">#A8A8A8</color>
+    <color name="pink">#F704E1</color>
+    <color name="red">#FF0000</color>
 </resources>
