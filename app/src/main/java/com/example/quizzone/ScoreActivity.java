@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.concurrent.TimeUnit;
 
@@ -69,6 +70,13 @@ public class ScoreActivity extends AppCompatActivity {
             }
         });
 
+        btnCheckRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         saveResult();
 
     }
@@ -90,28 +98,42 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+        String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
         int correctQues = 0, wrongQues = 0, noAnswerQues = 0;
+        if(type.equals("mc")){
+            for(int i = 0; i < DbQuery.g_quesList.size(); i++){
+                if(DbQuery.g_quesList.get(i).getSelectedAns() == -1){
+                    noAnswerQues++;
+                }else{
+                    if(DbQuery.g_quesList.get(i).getSelectedAns() == DbQuery.g_quesList.get(i).getCorrectAns()){
+                        correctQues++;
+                    } else {
+                        wrongQues++;
+                    }
+                }
+            }
 
-        for(int i = 0; i < DbQuery.g_quesList.size(); i++){
-            if(DbQuery.g_quesList.get(i).getSelectedAns() == -1){
-                noAnswerQues++;
-            }else{
-                if(DbQuery.g_quesList.get(i).getSelectedAns() == DbQuery.g_quesList.get(i).getCorrectAns()){
-                    correctQues++;
-                } else {
-                    wrongQues++;
+            correct_question.setText(String.valueOf(correctQues));
+            wrong_question.setText(String.valueOf(wrongQues));
+            no_answer_question.setText(String.valueOf(noAnswerQues));
+
+            total_question.setText(String.valueOf(DbQuery.g_quesList.size()));
+
+            finalScore = (correctQues*100)/DbQuery.g_quesList.size();
+            score.setText(String.valueOf(finalScore));
+        } else if (type.equals("fiw")) {
+            for(int i = 0; i < DbQuery.g_fillInWordList.size(); i++){
+                if(DbQuery.g_fillInWordList.get(i).getYourAnswer() == null){
+                    noAnswerQues++;
+                }else{
+                    if(DbQuery.g_fillInWordList.get(i).getYourAnswer().equals(DbQuery.g_fillInWordList.get(i).getAnswer())){
+                        correctQues++;
+                    } else {
+                        wrongQues++;
+                    }
                 }
             }
         }
-
-        correct_question.setText(String.valueOf(correctQues));
-        wrong_question.setText(String.valueOf(wrongQues));
-        no_answer_question.setText(String.valueOf(noAnswerQues));
-
-        total_question.setText(String.valueOf(DbQuery.g_quesList.size()));
-
-        finalScore = (correctQues*100)/DbQuery.g_quesList.size();
-        score.setText(String.valueOf(finalScore));
 
 
         timeTaken = getIntent().getLongExtra("TIME_TAKEN",0);

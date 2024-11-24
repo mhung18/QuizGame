@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.quizzone.Adapter.FillInWordAdapter;
 import com.example.quizzone.Adapter.FillInWordGridAdapter;
-import com.example.quizzone.Adapter.QuestionGridAdapter;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +57,7 @@ public class FillInWordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.flash_card_list_layout);
+        setContentView(R.layout.fill_in_word_list_layout);
 
         init();
 
@@ -193,8 +193,6 @@ public class FillInWordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 timer.cancel();
                 alertDialog.dismiss();
-
-
                 Intent intent = new Intent(FillInWordActivity.this, ScoreActivity.class);
                 long totalTime = g_testList.get(g_selected_test_index).getTime() * 60 * 1000;
                 intent.putExtra("TIME_TAKEN",totalTime - timeLeft);

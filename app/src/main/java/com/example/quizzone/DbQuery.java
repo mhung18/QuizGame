@@ -423,6 +423,8 @@ public class DbQuery {
         return type;
     }
 
+
+
     public static void loadData(MyCompleteListener completeListener){
         loadCategories(new MyCompleteListener() {
             @Override

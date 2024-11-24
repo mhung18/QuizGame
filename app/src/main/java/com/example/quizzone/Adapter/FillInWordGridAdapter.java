@@ -48,7 +48,7 @@ public class FillInWordGridAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View mView;
         if(view == null){
-            mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fill_in_word_item_layout, viewGroup, false);
+            mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.question_grid_item, viewGroup, false);
         } else {
             mView = view;
         }

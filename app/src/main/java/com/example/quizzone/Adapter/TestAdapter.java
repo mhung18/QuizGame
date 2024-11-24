@@ -70,6 +70,7 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
                 testNo.setText("Test No " + String.valueOf(pos+1) + ": " + DbQuery.getTopicOfQuiz(pos));
                 topScore.setText(String.valueOf(progress) + "%");
                 progressBar.setProgress(progress);
+
             }
 
             itemView.setOnClickListener(new View.OnClickListener() {

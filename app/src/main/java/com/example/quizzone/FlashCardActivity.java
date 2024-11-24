@@ -8,8 +8,7 @@ import static com.example.quizzone.DbQuery.g_catList;
 import static com.example.quizzone.DbQuery.g_flashCardList;
 import static com.example.quizzone.DbQuery.g_quesList;
 import static com.example.quizzone.DbQuery.g_selected_cat_index;
-import static com.example.quizzone.DbQuery.g_selected_test_index;
-import static com.example.quizzone.DbQuery.g_testList;
+
 
 
 import android.content.Intent;

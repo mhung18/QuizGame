@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout">
 
-    <include layout="@layout/activity_questions" />
+    <include layout="@layout/activity_fill_in_word" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
 

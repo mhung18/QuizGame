@@ -1,5 +1,7 @@
 package com.example.quizzone.Adapter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +51,25 @@ public class FillInWordAdapter extends RecyclerView.Adapter<FillInWordAdapter.Fi
         }
         private void setData(final int pos){
             hint.setText(fiwList.get(pos).getHint());
+            int answerLength = fiwList.get(pos).getAnswer().replaceAll(" ","").length();
+            yourAnswer.setItemCount(answerLength);
+            yourAnswer.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
         }
     }
 }

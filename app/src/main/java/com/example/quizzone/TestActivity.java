@@ -76,9 +76,20 @@ public class TestActivity extends AppCompatActivity {
                     rcvTest.setAdapter(adapter);
                     progressDialog.dismiss();
                 } else if (type.equals("fiw")){
-                    adapter = new TestAdapter(DbQuery.g_testList);
-                    rcvTest.setAdapter(adapter);
-                    progressDialog.dismiss();
+                    DbQuery.loadMyScores(new MyCompleteListener() {
+                        @Override
+                        public void OnSuccess() {
+                            adapter = new TestAdapter(DbQuery.g_testList);
+                            rcvTest.setAdapter(adapter);
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void OnFailure() {
+                            progressDialog.dismiss();
+                            Toast.makeText(TestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
