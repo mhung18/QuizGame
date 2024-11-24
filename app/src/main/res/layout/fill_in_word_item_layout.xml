@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:textColor="@color/black"
+        android:text="Question No 1"
+        android:fontFamily="@font/inter"
+        android:textSize="18sp"
+        android:scrollbars="vertical"
+        android:background="@android:color/white"
+        android:elevation="5dp"
+        android:translationZ="3dp"></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:text="Enter your answer here"></TextView>
+
+
+        <com.chaos.view.PinView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:id="@+id/yourAnswer"
+            android:layout_gravity="center"
+            app:hideLineWhenFilled="true"></com.chaos.view.PinView>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

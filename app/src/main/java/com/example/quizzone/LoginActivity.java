@@ -40,17 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView dialog_txt;
     private CardView googleSignin,facebookSignin,twitterSignin;
 
-
-
-//    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-//        @Override
-//        public void onActivityResult(ActivityResult o) {
-//            if(o.getResultCode()==RESULT_OK){
-//                Task<GoogleSignInAccount> accountTask = GoogleSignInOptions.;;
-//            }
-//        }
-//    })
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,10 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build();
 
         forgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
 
-                            DbQuery.loadCategories(new MyCompleteListener() {
+                            DbQuery.loadData(new MyCompleteListener() {
                                 @Override
                                 public void OnSuccess() {
                                     progressDialog.dismiss();
@@ -167,9 +152,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-//    private void GoogleSignIn(){
-//        Intent intent = new Intent(LoginActivity.this,GoogleSignInActivity.class);
-//        startActivity(intent);
-//    }
 
 }

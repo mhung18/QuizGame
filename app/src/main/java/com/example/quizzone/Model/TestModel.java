@@ -1,12 +1,14 @@
-package com.example.quizzone;
+package com.example.quizzone.Model;
 
 public class TestModel {
     private String testID;
+    private String topic;
     private int topScore;
     private int time;
 
-    public TestModel(String testID, int topScore, int time) {
+    public TestModel(String testID,String topic, int topScore, int time) {
         this.testID = testID;
+        this.topic = topic;
         this.topScore = topScore;
         this.time = time;
     }
@@ -17,6 +19,14 @@ public class TestModel {
 
     public void setTestID(String testID) {
         this.testID = testID;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public int getTopScore() {

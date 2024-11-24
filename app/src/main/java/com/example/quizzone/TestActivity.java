@@ -11,14 +11,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.quizzone.Adapter.TestAdapter;
 
 public class TestActivity extends AppCompatActivity {
     private RecyclerView rcvTest;
@@ -55,14 +51,35 @@ public class TestActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         rcvTest.setLayoutManager(layoutManager);
 
+        String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
+
         DbQuery.loadTestData(new MyCompleteListener() {
             @Override
             public void OnSuccess() {
+                if(type.equals("mc")){
+                    DbQuery.loadMyScores(new MyCompleteListener() {
+                        @Override
+                        public void OnSuccess() {
+                            adapter = new TestAdapter(DbQuery.g_testList);
+                            rcvTest.setAdapter(adapter);
+                            progressDialog.dismiss();
+                        }
 
-                adapter = new TestAdapter(DbQuery.g_testList);
-                rcvTest.setAdapter(adapter);
-
-                progressDialog.dismiss();
+                        @Override
+                        public void OnFailure() {
+                            progressDialog.dismiss();
+                            Toast.makeText(TestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else if (type.equals("fc")) {
+                    adapter = new TestAdapter(DbQuery.g_testList);
+                    rcvTest.setAdapter(adapter);
+                    progressDialog.dismiss();
+                } else if (type.equals("fiw")){
+                    adapter = new TestAdapter(DbQuery.g_testList);
+                    rcvTest.setAdapter(adapter);
+                    progressDialog.dismiss();
+                }
             }
 
             @Override

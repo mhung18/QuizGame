@@ -1,4 +1,4 @@
-package com.example.quizzone;
+package com.example.quizzone.Model;
 
 public class QuestionModel {
     private String question;

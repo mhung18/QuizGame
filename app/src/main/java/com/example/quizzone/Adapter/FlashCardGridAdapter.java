@@ -1,4 +1,4 @@
-package com.example.quizzone;
+package com.example.quizzone.Adapter;
 
 import static com.example.quizzone.DbQuery.ANSWERED;
 import static com.example.quizzone.DbQuery.NOT_VISITED;
@@ -15,18 +15,22 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-public class QuestionGridAdapter extends BaseAdapter {
-    private int numOfQuestion;
+import com.example.quizzone.DbQuery;
+import com.example.quizzone.FlashCardActivity;
+import com.example.quizzone.QuestionsActivity;
+import com.example.quizzone.R;
+
+public class FlashCardGridAdapter extends BaseAdapter {
+    private int numOfCard;
     private Context context;
 
-    public QuestionGridAdapter(Context context,int numOfQuestion) {
+    public FlashCardGridAdapter(Context context,int numOfCard) {
         this.context = context;
-        this.numOfQuestion = numOfQuestion;
+        this.numOfCard = numOfCard;
     }
-
     @Override
     public int getCount() {
-        return numOfQuestion;
+        return numOfCard;
     }
 
     @Override
@@ -51,8 +55,8 @@ public class QuestionGridAdapter extends BaseAdapter {
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(context instanceof QuestionsActivity){
-                    ((QuestionsActivity)context).goToQuestion(i);
+                if(context instanceof FlashCardActivity){
+                    ((FlashCardActivity)context).goToQuestion(i);
                     notifyDataSetChanged();
 
                 }
@@ -62,7 +66,7 @@ public class QuestionGridAdapter extends BaseAdapter {
         TextView quesNum = mView.findViewById(R.id.ques_num);
         quesNum.setText(String.valueOf(i + 1));
 
-        switch (DbQuery.g_quesList.get(i).getStatus()){
+        switch (DbQuery.g_flashCardList.get(i).getStatus()){
             case NOT_VISITED:
                 quesNum.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(mView.getContext(), R.color.grey)));
                 break;

@@ -1,4 +1,4 @@
-package com.example.quizzone;
+package com.example.quizzone.Adapter;
 
 import static com.example.quizzone.DbQuery.ANSWERED;
 import static com.example.quizzone.DbQuery.REVIEW;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.quizzone.Model.QuestionModel;
+import com.example.quizzone.R;
 
 import java.util.List;
 

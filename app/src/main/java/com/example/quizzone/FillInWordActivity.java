@@ -5,7 +5,7 @@ import static com.example.quizzone.DbQuery.NOT_VISITED;
 import static com.example.quizzone.DbQuery.REVIEW;
 import static com.example.quizzone.DbQuery.UNANSWERED;
 import static com.example.quizzone.DbQuery.g_catList;
-import static com.example.quizzone.DbQuery.g_quesList;
+import static com.example.quizzone.DbQuery.g_fillInWordList;
 import static com.example.quizzone.DbQuery.g_selected_cat_index;
 import static com.example.quizzone.DbQuery.g_selected_test_index;
 import static com.example.quizzone.DbQuery.g_testList;
@@ -26,58 +26,56 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.view.GravityCompat;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.example.quizzone.Adapter.FillInWordAdapter;
+import com.example.quizzone.Adapter.FillInWordGridAdapter;
 import com.example.quizzone.Adapter.QuestionGridAdapter;
-import com.example.quizzone.Adapter.QuestionsAdapter;
 
 import java.util.concurrent.TimeUnit;
 
-public class QuestionsActivity extends AppCompatActivity {
+public class FillInWordActivity extends AppCompatActivity {
     private TextView tv_QuesID, tv_Time,tv_CatName;
     private AppCompatButton btnSubmit, btnClearSelection, btnMarkQues;
     private ImageView btnBookmark, btnQuesListGrid, markImg;
     private RecyclerView rcvQuestion;
     private ImageButton btnPrevQues, btnNextQues, drawerClose;
     private int quesID;
-    QuestionsAdapter adapter;
+    FillInWordAdapter adapter;
     private DrawerLayout drawerLayout;
     private GridView quesListGV;
-    private QuestionGridAdapter questionGridAdapter;
+    private FillInWordGridAdapter fillInWordGridAdapter;
     private CountDownTimer timer;
     private long timeLeft;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.question_list_layout);
+        setContentView(R.layout.flash_card_list_layout);
 
         init();
 
-        adapter = new QuestionsAdapter(g_quesList);
+        adapter = new FillInWordAdapter(g_fillInWordList);
         rcvQuestion.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rcvQuestion.setLayoutManager(linearLayoutManager);
 
-        questionGridAdapter = new QuestionGridAdapter(this,g_quesList.size());
-        quesListGV.setAdapter(questionGridAdapter);
+        fillInWordGridAdapter = new FillInWordGridAdapter(this,g_fillInWordList.size());
+        quesListGV.setAdapter(fillInWordGridAdapter);
 
         setSnapHelper();
-        
+
         setClickListeners();
 
         startTimer();
-
     }
-
     private void startTimer() {
         long totalTime = g_testList.get(g_selected_test_index).getTime() * 60 * 1000;
         timer = new CountDownTimer(totalTime + 1000, 1000) {
@@ -90,15 +88,15 @@ public class QuestionsActivity extends AppCompatActivity {
                         TimeUnit.MILLISECONDS.toMinutes(remainingTime),
                         TimeUnit.MILLISECONDS.toSeconds(remainingTime) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime))
-                        );
+                );
                 tv_Time.setText(time);
             }
 
             @Override
             public void onFinish() {
-                Intent intent = new Intent(QuestionsActivity.this, ScoreActivity.class);
+                Intent intent = new Intent(FillInWordActivity.this, ScoreActivity.class);
                 startActivity(intent);
-                QuestionsActivity.this.finish();
+                FillInWordActivity.this.finish();
             }
         };
         timer.start();
@@ -116,7 +114,7 @@ public class QuestionsActivity extends AppCompatActivity {
         btnNextQues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (quesID < g_quesList.size() - 1) {
+                if (quesID < g_fillInWordList.size() - 1) {
                     rcvQuestion.smoothScrollToPosition(quesID + 1);
                 }
             }
@@ -125,10 +123,10 @@ public class QuestionsActivity extends AppCompatActivity {
         btnClearSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                g_quesList.get(quesID).setSelectedAns(-1);
-                g_quesList.get(quesID).setStatus(UNANSWERED);
-                markImg.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
+//                g_fillInWordList.get(quesID).setYourAnswer("");
+//                g_fillInWordList.get(quesID).setStatus(UNANSWERED);
+//                markImg.setVisibility(View.GONE);
+//                adapter.notifyDataSetChanged();
             }
         });
 
@@ -136,7 +134,7 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                    questionGridAdapter.notifyDataSetChanged();
+                    fillInWordGridAdapter.notifyDataSetChanged();
                     drawerLayout.openDrawer(GravityCompat.END);
                 }
             }
@@ -156,14 +154,10 @@ public class QuestionsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (markImg.getVisibility() != View.VISIBLE) {
                     markImg.setVisibility(View.VISIBLE);
-                    g_quesList.get(quesID).setStatus(REVIEW);
+                    g_fillInWordList.get(quesID).setStatus(REVIEW);
                 } else {
                     markImg.setVisibility(View.GONE);
-                    if (g_quesList.get(quesID).getSelectedAns() != -1) {
-                        g_quesList.get(quesID).setStatus(ANSWERED);
-                    } else {
-                        g_quesList.get(quesID).setStatus(UNANSWERED);
-                    }
+                    g_fillInWordList.get(quesID).setStatus(UNANSWERED);
                 }
             }
         });
@@ -177,7 +171,7 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     private void submitTest() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(QuestionsActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(FillInWordActivity.this);
         builder.setCancelable(true);
 
         View view = getLayoutInflater().inflate(R.layout.alert_dialog_layout,null);
@@ -201,11 +195,11 @@ public class QuestionsActivity extends AppCompatActivity {
                 alertDialog.dismiss();
 
 
-                Intent intent = new Intent(QuestionsActivity.this, ScoreActivity.class);
+                Intent intent = new Intent(FillInWordActivity.this, ScoreActivity.class);
                 long totalTime = g_testList.get(g_selected_test_index).getTime() * 60 * 1000;
                 intent.putExtra("TIME_TAKEN",totalTime - timeLeft);
                 startActivity(intent);
-                QuestionsActivity.this.finish();
+                FillInWordActivity.this.finish();
             }
         });
 
@@ -232,16 +226,16 @@ public class QuestionsActivity extends AppCompatActivity {
                 View view = snapHelper.findSnapView(recyclerView.getLayoutManager());
                 quesID = recyclerView.getLayoutManager().getPosition(view);
 
-                if (g_quesList.get(quesID).getStatus() == NOT_VISITED){
-                    g_quesList.get(quesID).setStatus(UNANSWERED);
+                if (g_fillInWordList.get(quesID).getStatus() == NOT_VISITED){
+                    g_fillInWordList.get(quesID).setStatus(UNANSWERED);
                 }
-                if (g_quesList.get(quesID).getStatus() == REVIEW){
+                if (g_fillInWordList.get(quesID).getStatus() == REVIEW){
                     markImg.setVisibility(View.VISIBLE);
                 } else {
                     markImg.setVisibility(View.GONE);
                 }
 
-                tv_QuesID.setText(String.valueOf(quesID + 1) + "/" + String.valueOf(g_quesList.size()));
+                tv_QuesID.setText(String.valueOf(quesID + 1) + "/" + String.valueOf(g_fillInWordList.size()));
             }
 
             @Override
@@ -272,9 +266,9 @@ public class QuestionsActivity extends AppCompatActivity {
 
         quesID = 0;
         tv_CatName.setText(g_catList.get(g_selected_cat_index).getName());
-        tv_QuesID.setText("1/" + String.valueOf(g_quesList.size()));
+        tv_QuesID.setText("1/" + String.valueOf(g_fillInWordList.size()));
 
-        g_quesList.get(0).setStatus(UNANSWERED);
+        g_fillInWordList.get(0).setStatus(UNANSWERED);
 
 
     }

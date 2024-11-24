@@ -112,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void OnSuccess() {
 
-                                    DbQuery.loadCategories(new MyCompleteListener() {
+                                    DbQuery.loadData(new MyCompleteListener() {
                                         @Override
                                         public void OnSuccess() {
                                             progressDialog.dismiss();

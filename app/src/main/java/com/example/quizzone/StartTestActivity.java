@@ -26,6 +26,7 @@ public class StartTestActivity extends AppCompatActivity {
     private ImageView btnBack;
     private Dialog progressDialog;
     private TextView dialog_txt;
+    public static String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,6 @@ public class StartTestActivity extends AppCompatActivity {
             @Override
             public void OnSuccess() {
                 setData();
-
                 progressDialog.dismiss();
             }
 
@@ -77,9 +77,20 @@ public class StartTestActivity extends AppCompatActivity {
         btnStartTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StartTestActivity.this, QuestionsActivity.class);
-                startActivity(intent);
-                finish();
+                if(type.equals("mc")){
+                    Intent intent = new Intent(StartTestActivity.this, QuestionsActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if(type.equals("fc")){
+                    Intent intent = new Intent(StartTestActivity.this, FlashCardActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if(type.equals("fiw")){
+                    Intent intent = new Intent(StartTestActivity.this, FillInWordActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         });
     }
@@ -87,8 +98,17 @@ public class StartTestActivity extends AppCompatActivity {
     private void setData(){
         catName.setText(g_catList.get(DbQuery.g_selected_cat_index).getName());
         testNo.setText("Test No. " + String.valueOf(DbQuery.g_selected_test_index + 1));
-        totalQues.setText(String.valueOf(DbQuery.g_quesList.size()));
-        bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
+        if(type.equals("mc")){
+            totalQues.setText(String.valueOf(DbQuery.g_quesList.size()));
+            bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
+        } else if(type.equals("fc")){
+            totalQues.setText(String.valueOf(DbQuery.g_flashCardList.size()));
+            bestScore.setText(String.valueOf("NA"));
+        } else if(type.equals("fiw")){
+            totalQues.setText(String.valueOf(DbQuery.g_fillInWordList.size()));
+            bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
+        }
+
         time.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTime()));
 
     }

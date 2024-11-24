@@ -1,4 +1,4 @@
-package com.example.quizzone;
+package com.example.quizzone.Adapter;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.quizzone.DbQuery;
+import com.example.quizzone.Model.TestModel;
+import com.example.quizzone.R;
+import com.example.quizzone.StartTestActivity;
 
 import java.util.List;
 
@@ -50,9 +55,22 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
         }
 
         private void setData(int pos, int progress){
-            testNo.setText("Test No : " + String.valueOf(pos+1));
-            topScore.setText(String.valueOf(progress) + "%");
-            progressBar.setProgress(progress);
+            String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
+            if(type.equals("mc")){
+                testNo.setText("Test No " + String.valueOf(pos+1) + ": " + DbQuery.getTopicOfQuiz(pos));
+                topScore.setText(String.valueOf(progress) + "%");
+                progressBar.setProgress(progress);
+
+            } else if(type.equals("fc")){
+                testNo.setText("Study Flash Card No " + String.valueOf(pos+1) + ": " + DbQuery.getTopicOfQuiz(pos));
+                testNo.setPadding(0,50,0,50);
+                topScore.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+            } else if (type.equals("fiw")) {
+                testNo.setText("Test No " + String.valueOf(pos+1) + ": " + DbQuery.getTopicOfQuiz(pos));
+                topScore.setText(String.valueOf(progress) + "%");
+                progressBar.setProgress(progress);
+            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
