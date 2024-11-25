@@ -27,6 +27,7 @@ public class StartTestActivity extends AppCompatActivity {
     private Dialog progressDialog;
     private TextView dialog_txt;
     public static String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
+    public static int catIndex = DbQuery.g_selected_cat_index;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,8 @@ public class StartTestActivity extends AppCompatActivity {
                 Toast.makeText(StartTestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
             }
         });
+
+        Toast.makeText(StartTestActivity.this,String.valueOf(catIndex),Toast.LENGTH_SHORT).show();
     }
 
     private void init(){
@@ -70,6 +73,7 @@ public class StartTestActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 StartTestActivity.this.finish();
             }
         });
@@ -80,17 +84,15 @@ public class StartTestActivity extends AppCompatActivity {
                 if(type.equals("mc")){
                     Intent intent = new Intent(StartTestActivity.this, QuestionsActivity.class);
                     startActivity(intent);
-                    finish();
                 } else if(type.equals("fc")){
                     Intent intent = new Intent(StartTestActivity.this, FlashCardActivity.class);
                     startActivity(intent);
-                    finish();
+
                 } else if(type.equals("fiw")){
                     Intent intent = new Intent(StartTestActivity.this, FillInWordActivity.class);
                     startActivity(intent);
-                    finish();
                 }
-
+                finish();
             }
         });
     }
@@ -101,15 +103,15 @@ public class StartTestActivity extends AppCompatActivity {
         if(type.equals("mc")){
             totalQues.setText(String.valueOf(DbQuery.g_quesList.size()));
             bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
-        } else if(type.equals("fc")){
+        }
+        if(type.equals("fc")){
             totalQues.setText(String.valueOf(DbQuery.g_flashCardList.size()));
-            bestScore.setText(String.valueOf("NA"));
-        } else if(type.equals("fiw")){
+            bestScore.setText(String.valueOf(0));
+        }
+        if(type.equals("fiw")){
             totalQues.setText(String.valueOf(DbQuery.g_fillInWordList.size()));
             bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
         }
-
         time.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTime()));
-
     }
 }

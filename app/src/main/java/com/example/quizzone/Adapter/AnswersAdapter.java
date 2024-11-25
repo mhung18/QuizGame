@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizzone.DbQuery;
+import com.example.quizzone.Model.FillInWordModel;
 import com.example.quizzone.Model.QuestionModel;
 import com.example.quizzone.R;
 

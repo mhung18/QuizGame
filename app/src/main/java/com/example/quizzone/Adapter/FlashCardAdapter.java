@@ -82,5 +82,14 @@ public class FlashCardAdapter extends RecyclerView.Adapter<FlashCardAdapter.Flas
                 }
             });
         }
+
+        public void showFront() {
+            frontAnim.setTarget(answer);
+            backAnim.setTarget(question);
+            backAnim.start();
+            frontAnim.start();
+            isFront = true;
+        }
+
     }
 }

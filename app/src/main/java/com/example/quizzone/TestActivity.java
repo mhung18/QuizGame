@@ -56,41 +56,20 @@ public class TestActivity extends AppCompatActivity {
         DbQuery.loadTestData(new MyCompleteListener() {
             @Override
             public void OnSuccess() {
-                if(type.equals("mc")){
-                    DbQuery.loadMyScores(new MyCompleteListener() {
-                        @Override
-                        public void OnSuccess() {
-                            adapter = new TestAdapter(DbQuery.g_testList);
-                            rcvTest.setAdapter(adapter);
-                            progressDialog.dismiss();
-                        }
+                DbQuery.loadMyScores(new MyCompleteListener() {
+                    @Override
+                    public void OnSuccess() {
+                        adapter = new TestAdapter(DbQuery.g_testList);
+                        rcvTest.setAdapter(adapter);
+                        progressDialog.dismiss();
+                    }
 
-                        @Override
-                        public void OnFailure() {
-                            progressDialog.dismiss();
-                            Toast.makeText(TestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else if (type.equals("fc")) {
-                    adapter = new TestAdapter(DbQuery.g_testList);
-                    rcvTest.setAdapter(adapter);
-                    progressDialog.dismiss();
-                } else if (type.equals("fiw")){
-                    DbQuery.loadMyScores(new MyCompleteListener() {
-                        @Override
-                        public void OnSuccess() {
-                            adapter = new TestAdapter(DbQuery.g_testList);
-                            rcvTest.setAdapter(adapter);
-                            progressDialog.dismiss();
-                        }
-
-                        @Override
-                        public void OnFailure() {
-                            progressDialog.dismiss();
-                            Toast.makeText(TestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                    @Override
+                    public void OnFailure() {
+                        progressDialog.dismiss();
+                        Toast.makeText(TestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -99,14 +78,13 @@ public class TestActivity extends AppCompatActivity {
                 Toast.makeText(TestActivity.this,"Something went wrong ! Please try again",Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
+
             TestActivity.this.finish();
         }
         return super.onOptionsItemSelected(item);

@@ -103,6 +103,7 @@ public class FlashCardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (flashCardID > 0) {
                     rcvFlashCard.smoothScrollToPosition(flashCardID - 1);
+                    flipCardToFront(flashCardID);
                 }
             }
         });
@@ -111,6 +112,7 @@ public class FlashCardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (flashCardID < g_flashCardList.size() - 1) {
                     rcvFlashCard.smoothScrollToPosition(flashCardID + 1);
+                    flipCardToFront(flashCardID);
                 }
             }
         });
@@ -160,6 +162,15 @@ public class FlashCardActivity extends AppCompatActivity {
                 finishStudying();
             }
         });
+    }
+
+    private void flipCardToFront(int cardID) {
+        // Assuming you have a method to get the current flashcard view by its ID
+        FlashCardAdapter.FlashCardViewHolder viewHolder =
+                (FlashCardAdapter.FlashCardViewHolder) rcvFlashCard.findViewHolderForAdapterPosition(cardID);
+        if (viewHolder != null) {
+            viewHolder.showFront(); // Ensure the card is flipped to the front
+        }
     }
 
     public void goToQuestion(int position){

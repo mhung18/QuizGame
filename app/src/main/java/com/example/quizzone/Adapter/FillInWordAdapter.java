@@ -33,6 +33,7 @@ public class FillInWordAdapter extends RecyclerView.Adapter<FillInWordAdapter.Fi
     @Override
     public void onBindViewHolder(@NonNull FillInWordAdapter.FillInWordViewHolder holder, int position) {
         holder.setData(position);
+
     }
 
     @Override
@@ -53,22 +54,30 @@ public class FillInWordAdapter extends RecyclerView.Adapter<FillInWordAdapter.Fi
             hint.setText(fiwList.get(pos).getHint());
             int answerLength = fiwList.get(pos).getAnswer().replaceAll(" ","").length();
             yourAnswer.setItemCount(answerLength);
+
+            // Xóa TextWatcher cũ (nếu có) để tránh lỗi khi tái chế view
             yourAnswer.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Chuyển chữ thường thành chữ hoa
+                    String upperCaseText = s.toString().toUpperCase();
+
+                    // Kiểm tra nếu nội dung đã thay đổi thì cập nhật lại
+                    if (!s.toString().equals(upperCaseText)) {
+                        yourAnswer.setText(upperCaseText);
+                        yourAnswer.setSelection(upperCaseText.length()); // Đặt con trỏ ở cuối
+                    }
                 }
 
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
+                public void afterTextChanged(Editable s) {
+                    fiwList.get(pos).setYourAnswer(s.toString());
                 }
             });
+
 
         }
     }

@@ -53,6 +53,7 @@ public class CategoryAdapter extends BaseAdapter {
                 Intent intent = new Intent(view.getContext(), TestActivity.class);
                 intent.putExtra("CAT_INDEX",i);
                 view.getContext().startActivity(intent);
+                
             }
         });
 

@@ -19,6 +19,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.quizzone.Adapter.AnswersForFIWAdapter;
+
 import java.util.concurrent.TimeUnit;
 
 public class ScoreActivity extends AppCompatActivity {
@@ -58,8 +60,15 @@ public class ScoreActivity extends AppCompatActivity {
         btnViewAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ScoreActivity.this, AnswersActivity.class);
-                startActivity(intent);
+                String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
+                if(type.equals("mc")){
+                    Intent intent = new Intent(ScoreActivity.this, AnswersActivity.class);
+                    startActivity(intent);
+                } else if (type.equals("fiw")) {
+                    Intent intent = new Intent(ScoreActivity.this, AnswersForFIWAdapter.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -78,6 +87,9 @@ public class ScoreActivity extends AppCompatActivity {
         });
 
         saveResult();
+
+        Toast.makeText(ScoreActivity.this,DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index),Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -99,8 +111,9 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void loadData() {
         String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
-        int correctQues = 0, wrongQues = 0, noAnswerQues = 0;
+
         if(type.equals("mc")){
+            int correctQues = 0, wrongQues = 0, noAnswerQues = 0;
             for(int i = 0; i < DbQuery.g_quesList.size(); i++){
                 if(DbQuery.g_quesList.get(i).getSelectedAns() == -1){
                     noAnswerQues++;
@@ -122,17 +135,28 @@ public class ScoreActivity extends AppCompatActivity {
             finalScore = (correctQues*100)/DbQuery.g_quesList.size();
             score.setText(String.valueOf(finalScore));
         } else if (type.equals("fiw")) {
+            int correctQues = 0, wrongQues = 0, noAnswerQues = 0;
             for(int i = 0; i < DbQuery.g_fillInWordList.size(); i++){
-                if(DbQuery.g_fillInWordList.get(i).getYourAnswer() == null){
+                String yourAnswer = DbQuery.g_fillInWordList.get(i).getYourAnswer().toString();
+                String correctAnswer = DbQuery.g_fillInWordList.get(i).getAnswer().toString();
+                if(yourAnswer.equals("")){
                     noAnswerQues++;
                 }else{
-                    if(DbQuery.g_fillInWordList.get(i).getYourAnswer().equals(DbQuery.g_fillInWordList.get(i).getAnswer())){
+                    if(yourAnswer.equalsIgnoreCase(correctAnswer)){
                         correctQues++;
                     } else {
                         wrongQues++;
                     }
                 }
             }
+            correct_question.setText(String.valueOf(correctQues));
+            wrong_question.setText(String.valueOf(wrongQues));
+            no_answer_question.setText(String.valueOf(noAnswerQues));
+
+            total_question.setText(String.valueOf(DbQuery.g_fillInWordList.size()));
+
+            finalScore = (correctQues*100)/DbQuery.g_fillInWordList.size();
+            score.setText(String.valueOf(finalScore));
         }
 
 
@@ -160,8 +184,6 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     private void saveResult() {
-
-
         DbQuery.saveResult(finalScore, new MyCompleteListener() {
             @Override
             public void OnSuccess() {

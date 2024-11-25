@@ -305,7 +305,7 @@ public class DbQuery {
                             for(DocumentSnapshot doc : queryDocumentSnapshots){
                                 g_fillInWordList.add(new FillInWordModel(
                                         doc.getString("HINT"),
-                                        "NULL",
+                                        "",
                                         doc.getString("ANSWER"),
                                         NOT_VISITED
                                 ));
@@ -320,7 +320,9 @@ public class DbQuery {
                         }
                     });
         }
+    }
 
+    public static void calculateTotalScore(){
 
     }
 
@@ -384,7 +386,7 @@ public class DbQuery {
         WriteBatch batch = g_firestore.batch();
 
         DocumentReference userDoc = g_firestore.collection("USER").document(FirebaseAuth.getInstance().getUid());
-        batch.update(userDoc,"TOTAL_SCORE",finalScore);
+        batch.update(userDoc," ",finalScore);
 
         if(finalScore > g_testList.get(g_selected_test_index).getTopScore()){
             DocumentReference scoreDoc = userDoc.collection("USER_DATA").document("MY_SCORES");

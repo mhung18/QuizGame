@@ -38,18 +38,21 @@
 
 
         <com.chaos.view.PinView
+            android:id="@+id/yourAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:itemCount="5"
-            android:itemBackground="@drawable/pinview_background"
-            app:itemWidth="30dp"
-            app:itemHeight="30dp"
-            app:lineColor="@color/main_background"
-            android:inputType="text"
-            android:id="@+id/yourAnswer"
             android:layout_gravity="center"
-            app:hideLineWhenFilled="true"></com.chaos.view.PinView>
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:itemBackground="@drawable/pinview_background"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:cursorVisible="true"
+            app:hideLineWhenFilled="true"
+            app:itemCount="5"
+            app:itemHeight="30dp"
+            app:itemWidth="30dp"
+            app:lineColor="@color/main_background"></com.chaos.view.PinView>
 
     </LinearLayout>
 

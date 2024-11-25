@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizzone.Adapter.AnswersAdapter;
 import com.example.quizzone.Adapter.AnswersForFIWAdapter;
 
-public class AnswersActivity extends AppCompatActivity {
+public class AnswerForFillInWordActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView rcvAnswers;
 
@@ -24,8 +24,7 @@ public class AnswersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_answers);
-
+        setContentView(R.layout.activity_answer_for_fill_in_word);
         toolbar = findViewById(R.id.aa_toolbar);
         rcvAnswers = findViewById(R.id.aa_rcvAnswers);
 
@@ -37,16 +36,13 @@ public class AnswersActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         rcvAnswers.setLayoutManager(layoutManager);
-        AnswersAdapter adapter = new AnswersAdapter(DbQuery.g_quesList);
+        AnswersForFIWAdapter adapter = new AnswersForFIWAdapter(DbQuery.g_fillInWordList);
         rcvAnswers.setAdapter(adapter);
 
-
     }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            AnswersActivity.this.finish();
+            AnswerForFillInWordActivity.this.finish();
         }
         return super.onOptionsItemSelected(item);
     }
