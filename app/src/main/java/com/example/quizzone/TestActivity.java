@@ -1,6 +1,7 @@
 package com.example.quizzone;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class TestActivity extends AppCompatActivity {
     private TestAdapter adapter;
     private Dialog progressDialog;
     private TextView dialog_txt;
+    public static int g_selected_test_index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class TestActivity extends AppCompatActivity {
 
         rcvTest = findViewById(R.id.rcvTest);
 
+        Intent intent = getIntent();
+
+
         progressDialog = new Dialog(TestActivity.this);
         progressDialog.setContentView(R.layout.dialog_layout);
         progressDialog.setCancelable(false);
@@ -51,7 +56,16 @@ public class TestActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         rcvTest.setLayoutManager(layoutManager);
 
-        String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
+        String type = DbQuery.g_catList.get(DbQuery.g_selected_cat_index).getName();
+        if(type.equals("Multiple Choice")){
+            DbQuery.g_selected_cat_index = 0;
+        } else if(type.equals("Flash Card")){
+            DbQuery.g_selected_cat_index = 1;
+        } else if(type.equals("Fill in word")){
+            DbQuery.g_selected_cat_index = 2;
+        }
+        Toast.makeText(TestActivity.this,type,Toast.LENGTH_SHORT).show();
+
 
         DbQuery.loadTestData(new MyCompleteListener() {
             @Override
@@ -84,7 +98,6 @@ public class TestActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-
             TestActivity.this.finish();
         }
         return super.onOptionsItemSelected(item);

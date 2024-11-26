@@ -1,6 +1,7 @@
 package com.example.quizzone;
 
 import static com.example.quizzone.DbQuery.g_catList;
+import static com.example.quizzone.DbQuery.g_testList;
 import static com.example.quizzone.DbQuery.loadQuestion;
 
 import android.app.Dialog;
@@ -26,8 +27,8 @@ public class StartTestActivity extends AppCompatActivity {
     private ImageView btnBack;
     private Dialog progressDialog;
     private TextView dialog_txt;
-    public static String type = DbQuery.getTypeOfQuiz(DbQuery.g_selected_cat_index);
-    public static int catIndex = DbQuery.g_selected_cat_index;
+    String type = DbQuery.g_catList.get(DbQuery.g_selected_cat_index).getName();
+    public static int catIndex = DbQuery.g_testList.size();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,6 @@ public class StartTestActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(StartTestActivity.this,String.valueOf(catIndex),Toast.LENGTH_SHORT).show();
     }
 
     private void init(){
@@ -73,7 +73,6 @@ public class StartTestActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 StartTestActivity.this.finish();
             }
         });
@@ -81,14 +80,14 @@ public class StartTestActivity extends AppCompatActivity {
         btnStartTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(type.equals("mc")){
+                if(type.equals("Multiple Choice")){
                     Intent intent = new Intent(StartTestActivity.this, QuestionsActivity.class);
                     startActivity(intent);
-                } else if(type.equals("fc")){
+                } else if(type.equals("Flash Card")){
                     Intent intent = new Intent(StartTestActivity.this, FlashCardActivity.class);
                     startActivity(intent);
 
-                } else if(type.equals("fiw")){
+                } else if(type.equals("Fill in word")){
                     Intent intent = new Intent(StartTestActivity.this, FillInWordActivity.class);
                     startActivity(intent);
                 }
@@ -100,15 +99,15 @@ public class StartTestActivity extends AppCompatActivity {
     private void setData(){
         catName.setText(g_catList.get(DbQuery.g_selected_cat_index).getName());
         testNo.setText("Test No. " + String.valueOf(DbQuery.g_selected_test_index + 1));
-        if(type.equals("mc")){
+        if(type.equals("Multiple Choice")){
             totalQues.setText(String.valueOf(DbQuery.g_quesList.size()));
             bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
         }
-        if(type.equals("fc")){
+        if(type.equals("Flash Card")){
             totalQues.setText(String.valueOf(DbQuery.g_flashCardList.size()));
             bestScore.setText(String.valueOf(0));
         }
-        if(type.equals("fiw")){
+        if(type.equals("Fill in word")){
             totalQues.setText(String.valueOf(DbQuery.g_fillInWordList.size()));
             bestScore.setText(String.valueOf(DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore()));
         }

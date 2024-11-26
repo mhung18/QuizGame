@@ -38,7 +38,7 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
         View myView;
 
         if(view == null){
@@ -53,7 +53,6 @@ public class CategoryAdapter extends BaseAdapter {
                 Intent intent = new Intent(view.getContext(), TestActivity.class);
                 intent.putExtra("CAT_INDEX",i);
                 view.getContext().startActivity(intent);
-                
             }
         });
 

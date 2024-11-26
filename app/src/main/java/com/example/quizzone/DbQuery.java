@@ -240,86 +240,83 @@ public class DbQuery {
         g_flashCardList.clear();
         g_fillInWordList.clear();
 
-        String type = getTypeOfQuiz(g_selected_cat_index);
-        if(type.equals("mc")){
-            g_firestore.collection("Questions")
-                    .whereEqualTo("CATEGORY",g_catList.get(g_selected_cat_index).getDocID())
-                    .whereEqualTo("TEST",g_testList.get(g_selected_test_index).getTestID())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(DocumentSnapshot doc : queryDocumentSnapshots){
-                                g_quesList.add(new QuestionModel(
-                                        doc.getString("QUESTION"),
-                                        doc.getString("A"),
-                                        doc.getString("B"),
-                                        doc.getString("C"),
-                                        doc.getString("D"),
-                                        doc.getLong("ANSWER").intValue(),
-                                        -1,
-                                        NOT_VISITED
-                                ));
-                            }
-                            completeListener.OnSuccess();
+        g_firestore.collection("Questions")
+                .whereEqualTo("CATEGORY",g_catList.get(g_selected_cat_index).getDocID())
+                .whereEqualTo("TEST",g_testList.get(g_selected_test_index).getTestID())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot doc : queryDocumentSnapshots){
+                            g_quesList.add(new QuestionModel(
+                                    doc.getString("QUESTION"),
+                                    doc.getString("A"),
+                                    doc.getString("B"),
+                                    doc.getString("C"),
+                                    doc.getString("D"),
+                                    doc.getLong("ANSWER").intValue(),
+                                    -1,
+                                    NOT_VISITED
+                            ));
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            completeListener.OnFailure();
+                        completeListener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.OnFailure();
+                    }
+                });
+
+        g_firestore.collection("FlashCards")
+                .whereEqualTo("CATEGORY",g_catList.get(g_selected_cat_index).getDocID())
+                .whereEqualTo("TEST",g_testList.get(g_selected_test_index).getTestID())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot doc : queryDocumentSnapshots){
+                            g_flashCardList.add(new FlashCardModel(
+                                    doc.getString("QUESTION"),
+                                    doc.getString("TRANSLATE"),
+                                    NOT_VISITED
+                            ));
                         }
-                    });
-        } else if (type.equals("fc")) {
-            g_firestore.collection("FlashCards")
-                    .whereEqualTo("CATEGORY",g_catList.get(g_selected_cat_index).getDocID())
-                    .whereEqualTo("TEST",g_testList.get(g_selected_test_index).getTestID())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(DocumentSnapshot doc : queryDocumentSnapshots){
-                                g_flashCardList.add(new FlashCardModel(
-                                        doc.getString("QUESTION"),
-                                        doc.getString("TRANSLATE"),
-                                        NOT_VISITED
-                                ));
-                            }
-                            completeListener.OnSuccess();
+                        completeListener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.OnFailure();
+                    }
+                });
+
+        g_firestore.collection("FillInWord")
+                .whereEqualTo("CATEGORY",g_catList.get(g_selected_cat_index).getDocID())
+                .whereEqualTo("TEST",g_testList.get(g_selected_test_index).getTestID())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot doc : queryDocumentSnapshots){
+                            g_fillInWordList.add(new FillInWordModel(
+                                    doc.getString("HINT"),
+                                    "",
+                                    doc.getString("ANSWER"),
+                                    NOT_VISITED
+                            ));
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            completeListener.OnFailure();
-                        }
-                    });
-        } else if (type.equals("fiw")){
-            g_firestore.collection("FillInWord")
-                    .whereEqualTo("CATEGORY",g_catList.get(g_selected_cat_index).getDocID())
-                    .whereEqualTo("TEST",g_testList.get(g_selected_test_index).getTestID())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(DocumentSnapshot doc : queryDocumentSnapshots){
-                                g_fillInWordList.add(new FillInWordModel(
-                                        doc.getString("HINT"),
-                                        "",
-                                        doc.getString("ANSWER"),
-                                        NOT_VISITED
-                                ));
-                            }
-                            completeListener.OnSuccess();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            completeListener.OnFailure();
-                        }
-                    });
-        }
+                        completeListener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.OnFailure();
+                    }
+                });
     }
 
     public static void calculateTotalScore(){
@@ -424,7 +421,6 @@ public class DbQuery {
         String type = g_catList.get(g_selected_cat_index).getType();
         return type;
     }
-
 
 
     public static void loadData(MyCompleteListener completeListener){
